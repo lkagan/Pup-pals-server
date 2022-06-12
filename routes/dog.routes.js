@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Dog = require("../models/Dog.model");
-// const fileUploader = require('../config/cloudinary.config');
+const fileUploader = require('../config/cloudinary.config');
 
 
 /*
@@ -15,6 +15,7 @@ router.post("/", (req, res) => {
   const { name, age, size, gender, breed, about } = req.body;
 
   // Validate the data
+ 
   if (age < 0 || age > 20) {
     res.status(400).json({ message: 'Invalid age' });
   }
@@ -26,13 +27,14 @@ router.post("/", (req, res) => {
   if (about.length > 10000) {
     res.status(400).json({ message: '"About" exceeds maximum length' });
   }
-
+ console.log(req)
   
   // Create the document 
   Dog.create({ name, age, size, gender, breed, about, user: req.user._id } )
   .then((dog) => {
-    console.log(user);
-    res.status(201).json(user);
+    console.log(dog);
+    res.status(201).json(dog);
+
   })
   .catch((err) => {
     res.status(500).send();
@@ -54,6 +56,7 @@ router.get("/:dogID", (req, res) => {
 // Update the dog
 router.put("/:dogID", (req, res) => {
     const { name, age, size, gender, breed, about } = req.body;
+   
     Dog.findByIdAndUpdate(
       req.params.dogID,
       { name, age, size, gender, breed, about },
@@ -66,5 +69,7 @@ router.put("/:dogID", (req, res) => {
         console.log(err);
       });
   });
+
+  
 
   module.exports = router;

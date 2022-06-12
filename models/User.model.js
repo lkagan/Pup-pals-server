@@ -5,10 +5,7 @@ const userSchema = new Schema(
   {
     email: { type: String, unique: true },
     password: String,
-    profilePicture: {
-      type: String,
-      default: "https://res.cloudinary.com/dticyzm8v/image/upload/v1650121606/profile-picture2_lpzldl.jpg",
-    },
+   
     name: String,
     age: Number,
     gender: { type: String, enum: ["Male", "Female"] },
