@@ -7,9 +7,9 @@ const auth = async (req, res, next) => {
     if (!token) return res.status(401).json({ message: 'No token, authorization denied' });
     
     try {
-        const userID = jwt.verify(token, process.env.JWT_SECRET);
-        console.log(userID);
-        req.user = await User.findById(userID);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log(decoded);
+        req.user = await User.findById(decoded.id);
         next();
     } catch (err) {
         res.status(400).json({ message: 'Token is not valid' });

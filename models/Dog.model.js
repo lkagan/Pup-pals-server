@@ -13,8 +13,8 @@ const dogSchema = new Schema(
       unique: true
     },
     age: Number,
-    size: {type: String, enum: ["Miniature", "Small", "Medium", "Large", "Very Large"]},    
-    gender: {type: String, enum: ["Male", "Female"]},
+    size: {type: String, enum: ["miniature", "small", "medium", "large", "very large"]},    
+    gender: {type: String, enum: ["male", "female"]},
     breed: String,
     about: String
   },
