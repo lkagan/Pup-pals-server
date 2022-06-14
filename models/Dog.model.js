@@ -1,22 +1,29 @@
 const { Schema, model } = require("mongoose");
 
-
 const dogSchema = new Schema(
   {
-    user: { type: Schema.Types.ObjectId, ref: "User" },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "User is required"],
+    },
     profilePicture: {
       type: String,
-      default: "https://res.cloudinary.com/dticyzm8v/image/upload/v1650121606/profile-picture2_lpzldl.jpg",
+      // required: [true, '']
     },
     name: {
       type: String,
-      unique: true
+      unique: true,
+      required: [true, "Name is required"],
     },
-    age: Number,
-    size: {type: String, enum: ["miniature", "small", "medium", "large", "very large"]},    
-    gender: {type: String, enum: ["male", "female"]},
-    breed: String,
-    about: String
+    age: { type: Number, min: [0, "Age must be greater than 0"], max: 20 },
+    size: {
+      type: String,
+      enum: ["miniature", "small", "medium", "large", "very large"],
+    },
+    gender: { type: String, enum: ["male", "female"] },
+    breed: { type: String, required: [true, "Breed is required"] },
+    about: { type: String, required: [true, "About is required"] },
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

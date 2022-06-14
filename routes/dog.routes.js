@@ -13,32 +13,17 @@ const fileUploader = require('../config/cloudinary.config');
 // Create the dog
 router.post("/", (req, res) => {
   const { name, age, size, gender, breed, about } = req.body;
-
-  // Validate the data
- 
-  if (age < 0 || age > 20) {
-    res.status(400).json({ message: 'Invalid age' });
-  }
-
-  if (breed.length > 100) {
-    res.status(400).json({ message: 'Invalid breed' });
-  }
-
-  if (about.length > 10000) {
-    res.status(400).json({ message: '"About" exceeds maximum length' });
-  }
- console.log(req)
   
   // Create the document 
   Dog.create({ name, age, size, gender, breed, about, user: req.user._id } )
   .then((dog) => {
-    console.log(dog);
     res.status(201).json(dog);
-
   })
   .catch((err) => {
+    if (err.errors) {
+      res.status(400).json(err.errors);
+    };
     res.status(500).send();
-    console.log(err);
   })
 })
 
@@ -63,11 +48,14 @@ router.put("/:dogID", (req, res) => {
       { new: true }
     )
       .then((updatedDog) => {
-        res.status(201).json(updatedDog);
+        res.status(200).json(updatedDog);
       })
       .catch((err) => {
-        console.log(err);
-      });
+        if (err.errors) {
+          res.status(400).json(err.errors);
+        };
+        res.status(500).send();
+      })
   });
 
   
