@@ -23,7 +23,7 @@ const dogSchema = new Schema(
     },
     gender: { type: String, enum: ["male", "female"] },
     breed: { type: String, required: [true, "Breed is required"] },
-    about: { type: String, required: [true, "About is required"] },
+    about: String
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

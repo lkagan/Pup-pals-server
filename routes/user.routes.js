@@ -15,16 +15,19 @@ router.get("/:userID", (req, res) => {
 
 router.post("/:userID", (req, res) => {
     const { name, age, gender, about } = req.body;
-    User.findByIdAndUpdate(
-      req.params.userID,
+    User.findOneAndUpdate( {_id: req.params.userID},
       { name, age, gender, about },
-      { new: true }
+      { runValidators: true, new: true }
     )
       .then((updatedUser) => {
         res.status(201).json(updatedUser);
       })
       .catch((err) => {
-        console.log(err);
+        if (err.errors) {
+          res.status(400).json(err.errors);
+        };
+
+        res.status(500).send();
       });
   });
 
