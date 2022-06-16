@@ -8,7 +8,7 @@ const userSchema = new Schema(
    
     name: {type: String, required: [true, "Name is required"]},
     age: {type: Number, min: [0, "Age must be greater than 0"], max: 100, required: [true, "Age is required"]},
-    gender: { type: String, enum: ["Male", "Female"] },
+    gender: { type: String, enum: ["male", "female"] },
     about: String
   },
   {
