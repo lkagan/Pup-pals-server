@@ -7,7 +7,7 @@ const dogSchema = new Schema(
       ref: "User",
       required: [true, "User is required"],
     },
-    profilePicture: {
+    imageUrl: {
       type: String,
       // required: [true, '']
     },

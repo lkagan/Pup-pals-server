@@ -12,11 +12,12 @@ const fileUploader = require('../config/cloudinary.config');
 
 // Create the dog
 router.post("/", (req, res) => {
-  const { name, age, size, gender, breed, about } = req.body;
-  
+  const { imageUrl, name, age, size, gender, breed, about } = req.body;
+  console.log(req.body)
   // Create the document 
-  Dog.create({ name, age, size, gender, breed, about, user: req.user._id } )
+  Dog.create({imageUrl, name, age, size, gender, breed, about, user: req.user._id } )
   .then((dog) => {
+    console.log(dog)
     res.status(201).json(dog);
   })
   .catch((err) => {
@@ -26,6 +27,20 @@ router.post("/", (req, res) => {
     res.status(500).send();
   })
 })
+
+router.post("/upload", fileUploader.single("imageUrl"), (req, res, next) => {
+  // console.log("file is: ", req.file);
+
+  if (!req.file) {
+    next(new Error("No file uploaded!"));
+    return;
+  }
+  // get the URL of the uploaded file and send it as a response.
+  // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
+
+  res.json({ fileUrl: req.file.path });
+});
+
 
 // Get the dog
 router.get("/:dogID", (req, res) => {
