@@ -2,6 +2,7 @@ const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User.model');
+const Dog = require('../models/Dog.model');
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -38,11 +39,14 @@ router.post('/login', async (req, res) => {
     res.status(401).json({ message: 'Please provide email and password.' });
 
   try {
-    const user = await User.findOne({ email });
+    const loggedinUser = await User.findOne({ email });
 
-    if (user && (await bcrypt.compare(password, user.password))) {
-      const token = generateToken(user._id);
-      res.status(200).json({ email, _id: user._id, token });
+    if (user && (await bcrypt.compare(password, loggedinUser.password))) {
+      Dog.findOne({ user: loggedinUser._id }).then((dog) => {
+        console.log(" --- > ", dog);
+        const token = generateToken(user._id);
+        res.status(200).json({ email, _id: loggedinUser._id, token, dog });
+      })
     } else res.status(400).json({ message: 'Invalid Credentials' });
   } catch (error) {
     console.log(error);
