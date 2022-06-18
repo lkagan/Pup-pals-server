@@ -13,7 +13,6 @@ const dogSchema = new Schema(
     },
     name: {
       type: String,
-      unique: true,
       required: [true, "Name is required"],
     },
     age: { type: Number, min: [0, "Age must be greater than 0"], max: 20 },
