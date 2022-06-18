@@ -73,6 +73,16 @@ router.put("/:dogID", (req, res) => {
       })
   });
 
+  // Delete the dog
+  router.delete("/:dogID", (req, res) => {
+    Dog.findByIdAndDelete(req.params.dogID)
+      .then((deletedDog) => { res.status(200).json(deletedDog); })
+      .catch((err) => {
+        console.log(err);
+      });
+
+  });
+
   
 
   module.exports = router;
