@@ -41,10 +41,10 @@ router.post('/login', async (req, res) => {
   try {
     const loggedinUser = await User.findOne({ email });
 
-    if (user && (await bcrypt.compare(password, loggedinUser.password))) {
+    if (loggedinUser && (await bcrypt.compare(password, loggedinUser.password))) {
       Dog.findOne({ user: loggedinUser._id }).then((dog) => {
-        console.log(" --- > ", dog);
-        const token = generateToken(user._id);
+        // console.log(" --- > ", dog);
+        const token = generateToken(loggedinUser._id);
         res.status(200).json({ email, _id: loggedinUser._id, token, dog });
       })
     } else res.status(400).json({ message: 'Invalid Credentials' });
