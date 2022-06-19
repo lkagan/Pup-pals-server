@@ -10,7 +10,7 @@ router.get("/", (req, res, next) => {
 });
 
 router.use("/auth", authRoutes);
-router.use("/user", userRoutes);
+router.use("/user", auth, userRoutes);
 router.use("/dog", auth, dogRoutes);
 
 module.exports = router;

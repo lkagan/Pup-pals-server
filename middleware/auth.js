@@ -3,7 +3,7 @@ const User = require('../models/User.model');
 
 
 const auth = async (req, res, next) => {
-    const token = req.header('Authorization').replace('Bearer ', '');
+    const token = req.header('Authorization')?.replace('Bearer ', '');
     if (!token) return res.status(401).json({ message: 'No token, authorization denied' });
     
     try {
