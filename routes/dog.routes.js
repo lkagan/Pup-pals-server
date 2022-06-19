@@ -13,7 +13,7 @@ const fileUploader = require('../config/cloudinary.config');
 // Create the dog
 router.post("/", (req, res) => {
   const { imageUrl, name, age, size, gender, breed, about } = req.body.formData;
-  console.log(req.name)
+  console.log(name)
   // Create the document 
   Dog.create({imageUrl, name, age, size, gender, breed, about, user: req.body.userId } )
   .then((dog) => {
@@ -24,6 +24,7 @@ router.post("/", (req, res) => {
     if (err.errors) {
       res.status(400).json(err.errors);
     };
+    console.log(err);
     res.status(500).send();
   })
 })
