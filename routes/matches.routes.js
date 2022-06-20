@@ -11,4 +11,14 @@ router.get("/", (req, res, next) => {
     })
 })
 
+router.get("/find", (req, res, next) => {
+    Dog.findOne()
+    .then((dog) => {
+        res.status(200).json(dog);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+})
+
 module.exports = router;
