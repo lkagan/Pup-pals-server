@@ -12,3 +12,16 @@ Content-Type: application/json
 ### GetRandomDog
 GET http://localhost:5005/api/matches/find
 Authorization: Bearer {{auth_token}}
+
+> {% client.global.set("random_dog", response.body._id); %}
+
+### LikeRandomDog
+POST http://localhost:5005/api/matches/like
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "dog_id": "{{random_dog}}",
+  "status": "liked"
+}
+
