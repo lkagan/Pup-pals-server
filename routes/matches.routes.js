@@ -12,9 +12,12 @@ router.get("/", (req, res, next) => {
 })
 
 router.get("/find", (req, res, next) => {
-    Dog.findOne()
-    .then((dog) => {
-        res.status(200).json(dog);
+    // TODO: filter out own dog and dogs that have already been viewed
+    Dog.aggregate([
+        { $sample: { size:  1 }},
+    ])
+    .then((dogs) => {
+        res.status(200).json(dogs[0]);
     })
     .catch((err) => {
         console.log(err);
