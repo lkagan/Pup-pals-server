@@ -2,14 +2,27 @@ const router = require("express").Router();
 const Dog = require("../models/Dog.model");
 const View = require("../models/View.model");
 
-router.get("/", (req, res, next) => {
-    Dog.find()
-    .then((dogs) => {
-        res.status(200).json(dogs);
-    })
-    .catch((err) => {
-        console.log(err);
-    })
+router.get("/", async (req, res, next) => {
+    try {
+        // Get the user's dog.
+        const usersDog = await Dog.findOne({ user: req.user._id });
+
+        // Get the dogs' IDs that the owner likes
+        const likedViews = await View.find({liked: true, viewed_for: usersDog._id});
+
+        // Get an array of liked dogs ID's
+        const likedDogsIds = likedViews.map(dog => dog.viewed_by.toString());
+
+        // Get the liked dogs
+        const likedDogs = await Dog.find({ _id: { $in: likedDogsIds}})
+
+        // TODO: Filter liked dogs to those who also liked the user's dog.
+
+        return res.status(200).json(likedDogs);
+    } catch (e) {
+        console.log(e);
+    }
+
 })
 
 router.get("/find", (req, res, next) => {
